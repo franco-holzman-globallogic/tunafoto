@@ -10,7 +10,7 @@ export default function Hero() {
 
   const timer = setTimeout(() => {
     document.body.style.overflow = "auto";
-  }, 1200); // cuando termina animación
+  }, 1200); 
 
   return () => clearTimeout(timer);
 }, []);
@@ -18,13 +18,13 @@ export default function Hero() {
     <section className="relative h-screen w-full overflow-hidden">
       
       {/* Imagen de fondo */}
- <div className="
-  absolute inset-0 
-  bg-[url('/emmaa.jpg')] 
-  bg-cover 
-  bg-[40%_center] 
-  md:bg-[center_20%]
-" />
+      <div className="
+          absolute inset-0 
+          bg-[url('/emmaa.jpg')] 
+          bg-cover 
+          bg-[40%_center] 
+          md:bg-[center_20%]" 
+      />
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/50" />
 

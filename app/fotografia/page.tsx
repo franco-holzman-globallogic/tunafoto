@@ -118,7 +118,7 @@ export default function Fotografia() {
         </motion.div>
       </AnimatePresence>
 
-      {/* GALERIA ESTILO PINTEREST */}
+      {/* GALERIA */}
       <AnimatePresence mode="wait">
         <motion.div
   key={active.slug + "-gallery"}
