@@ -32,13 +32,13 @@ export default function Clientes() {
       <div className="max-w-xl w-full text-center">
 
         {/* TÍTULO */}
-        <h2 className="text-2xl md:text-4xl font-light mb-6 tracking-[0.1em]">
-          CADA HISTORIA TIENE SU ESPACIO PRIVADO
+        <h2 className="text-[12px] md:text-2xl  md:font-medium font-light mb-10 tracking-[0.5em]">
+          ACCESO A TU GALERÍA
         </h2>
 
         {/* TEXTO */}
         <p className="text-gray-600 text-[15px] leading-relaxed mb-12">    
-          Accedé a tu galería, descargá tus imágenes y elegí tus favoritas para imprimir.
+          Descargá tus imágenes y elegí tus favoritas para imprimir.
         </p>
 
         {/* FORM */}
