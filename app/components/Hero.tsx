@@ -13,7 +13,7 @@ export default function Hero() {
   return () => clearTimeout(timer);
 }, []);
   return (
-    <section className="relative h-screen w-full overflow-hidden">
+    <section className="relative h-screen w-full overflow-hidden" aria-label="Portada">
       
       {/* Imagen de fondo */}
       <div className="
@@ -33,9 +33,9 @@ export default function Hero() {
         transition={{ duration: 1 }}
         className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white px-6"
       >
-        <h1 className="uppercase tracking-[0.2em] text-sm mb-4 ">
+        <p className="uppercase tracking-[0.2em] text-sm mb-4 ">
           Fotografía & Video
-        </h1>
+        </p>
 
         <h1 className="text-4xl md:text-6xl font-light tracking-wide leading-tight max-w-4xl">
           Momentos únicos<br />para toda la vida

@@ -2,22 +2,17 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { GALERIAS } from "@/lib/constants";
 
 export default function Clientes() {
   const [codigo, setCodigo] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const galerias: Record<string, string> = {
-    emma: "https://tuna-118349.pixellu.gallery/emma",
-    sample: "https://pixellu-17244.pixellu.gallery/sample/all",
-    evento: "https://pixellu-17244.pixellu.gallery/sample/all",
-  };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const key = codigo.trim().toLowerCase();
-    const url = galerias[key];
+    const url = GALERIAS[key];
 
     if (url) {
       setError("");
@@ -28,11 +23,11 @@ export default function Clientes() {
   };
 
   return (
-    <section className="min-h-screen bg-white text-black px-6 flex items-center justify-center">
+    <section className="min-h-screen bg-white text-black px-4 sm:px-6 flex items-center justify-center">
       <div className="max-w-xl w-full text-center">
 
         {/* TÍTULO */}
-        <h2 className="text-[14px] md:text-2xl font-medium mb-10 tracking-[0.4em]">
+        <h2 className="text-sm sm:text-[14px] md:text-2xl font-medium mb-8 sm:mb-10 tracking-[0.3em] sm:tracking-[0.4em]">
           ACCESO A TU GALERÍA
         </h2>
 
@@ -45,7 +40,9 @@ export default function Clientes() {
         <form onSubmit={handleSubmit} className="space-y-6">
 
           {/* INPUT */}
+          <label htmlFor="gallery-code" className="sr-only">Código de galería</label>
           <input
+            id="gallery-code"
             type="text"
             placeholder="INGRESÁ TU CÓDIGO"
             value={codigo}
