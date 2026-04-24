@@ -2,8 +2,6 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 
-
-
 export default function Hero() {
   useEffect(() => {
   document.body.style.overflow = "hidden";

@@ -37,16 +37,11 @@ export default function Contacto() {
           className="text-center md:text-left max-w-md mx-auto md:mx-0"
         >
 
-          {/* TÍTULO 
-          <h2 className="text-[11px] tracking-[0.4em] font-light mb-8 text-gray-500">
-            CONTACTO
-          </h2>*/}
-
-          {/* FRASE */}
-          <p className="text-xl md:text-3xl font-light leading-relaxed mb-8">
+          {/* TITULO */}
+          <h2 className="text-xl md:text-3xl font-light leading-relaxed mb-8">
             Cada historia es única.
             <br />Y merece ser contada con sensibilidad.
-          </p>
+          </h2>
 
           {/* SOBRE VOS */}
           <p className="text-[14px] md:text-[15px] text-gray-600 leading-relaxed mb-12 font-light">
