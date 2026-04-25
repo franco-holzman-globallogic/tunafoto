@@ -1,71 +1,53 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
+import { BATCH_SIZE, CATEGORIAS, TEXTOS_CATEGORIA, SCROLL_ROOT_MARGIN } from "@/lib/constants";
+
+function GalleryImage({ src, alt }: { src: string; alt: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "0px 0px -50px 0px" });
+
+  return (
+    <div ref={ref} className="mb-4">
+      <motion.img
+        src={src.replace("/upload/", "/upload/w_800/")}
+        alt={alt}
+        loading="lazy"
+        initial={{ opacity: 0, scale: 0.97 }}
+        animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.97 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="w-full object-cover hover:scale-[1.02] transition-transform duration-500"
+      />
+    </div>
+  );
+}
+
+function useColumns(count: number) {
+  const [cols, setCols] = useState(1);
+  useEffect(() => {
+    const update = () => {
+      if (window.innerWidth >= 768) setCols(count);
+      else if (window.innerWidth >= 640) setCols(2);
+      else setCols(1);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, [count]);
+  return cols;
+}
 
 export default function Fotografia() {
-  const categorias = [
-    { name: "INFANTIL", slug: "infantil" },
-    { name: "RECIÉN NACIDO", slug: "recien-nacido" },
-    { name: "FAMILIA", slug: "familia" },
-    { name: "EMBARAZO", slug: "embarazo" },
-    { name: "PAREJAS", slug: "parejas" },
-    { name: "RETRATO", slug: "retrato" },
-    { name: "15 AÑOS", slug: "15-anos" },
-    { name: "MASCOTA", slug: "mascota" },
-    { name: "EVENTO", slug: "evento" },
-    { name: "PRODUCTO", slug: "producto" },
-  ];
-
-  const [active, setActive] = useState(categorias[0]);
+  const [active, setActive] = useState(CATEGORIAS[0]);
   const [imagenes, setImagenes] = useState<string[]>([]);
+  const [visibleCount, setVisibleCount] = useState(BATCH_SIZE);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
 
-  const textos : Record<string, string[]> = {
-    infantil: [
-      "Naturales y espontáneas pensadas para capturar la esencia de cada etapa.", 
-      "Más que una sesión, es un juego: los chicos no hacen lo que nosotros queremos, sino lo que sienten. Corren, exploran, se divierten y se expresan libremente. Están en su propio mundo, siendo simplemente niños. Yo solo los acompaño y los sigo con mi cámara."
-    ],
-    "recien-nacido": [
-      "Capturá la intimidad de los primeros días con tu bebé a través de imágenes naturales y atemporales.",
-      "Cada sesión se centra en el vínculo, las miradas y las emociones, sin poses (lifestyle), con luz natural y en un ambiente tranquilo, ya sea en estudio o en tu hogar.",
-      "Un recuerdo único de una etapa que pasa muy rápido y merece ser guardada para siempre."
-    ],
-    familia: [
-      "La espontaneidad y la naturalidad definen mis imágenes.",
-      "En exteriores, los espacios abiertos permiten sentirse libres, relajarse y disfrutar.",
-      "Saltar, correr, jugar y simplemente pasarlo bien.", 
-      "Las mascotas también son bienvenidas."
-    ],
-    embarazo: [
-      "Fotografías naturales y auténticas que capturan la esencia de este momento único.",
-      "La belleza de la espera se refleja en imágenes íntimas y emocionales, pensadas para atesorar esta etapa para siempre.",
-      "Se recomienda realizar la sesión entre la semana 28 y 34, aunque cada embarazo es distinto."
-    ],
-    parejas:  [
-      "Conexión, complicidad y emociones."
-    ],
-    "15-anos": [
-      "Un momento único que merece ser recordado para siempre."
-    ],
-    mascota: [
-      "Ellos también son familia."
-    ],
-    evento: [
-      "Cobertura natural de momentos únicos."
-    ],
-    producto: [
-      "Pensadas para mostrar cada detalle de forma auténtica y atractiva, conectando con la esencia de tu marca."
-    ],
-    retrato: [
-      "Fotografías personales pensadas para reflejar tu esencia de forma natural y profesional.",
-      "También podés realizar fotos tipo carnet, cumpliendo con los requisitos necesarios para documentos o trámites."
-    ],
-  };
-
- // 🔥 FETCH AUTOMATICO DE IMAGENES
   const cache = useRef<Record<string, string[]>>({});
 
 useEffect(() => {
+  setVisibleCount(BATCH_SIZE);
   if (cache.current[active.slug]) {
     setImagenes(cache.current[active.slug]);
     return;
@@ -79,16 +61,37 @@ useEffect(() => {
     });
 }, [active.slug]);
 
+  // 📜 INFINITE SCROLL — load more images when sentinel enters viewport
+  const loadMore = useCallback(() => {
+    setVisibleCount((prev) => Math.min(prev + BATCH_SIZE, imagenes.length));
+  }, [imagenes.length]);
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) loadMore();
+      },
+      { rootMargin: SCROLL_ROOT_MARGIN }
+    );
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [loadMore]);
+
   return (
-    <section className="min-h-screen bg-white text-black px-6 pt-28 pb-16">
+    <section className="min-h-screen bg-white text-black px-4 sm:px-6 pt-24 sm:pt-28 pb-16">
 
       {/* SUBMENU */}
-      <div className="flex justify-center flex-wrap gap-6 md:gap-10 text-[11px] tracking-[0.3em] font-light mb-16">
-        {categorias.map((cat) => (
+      <div className="flex justify-start sm:justify-center overflow-x-auto scrollbar-hide gap-4 sm:gap-6 md:gap-10 text-[10px] sm:text-[11px] tracking-[0.2em] sm:tracking-[0.3em] font-light mb-10 sm:mb-16 -mx-4 px-4 sm:mx-0 sm:px-0" role="tablist">
+        {CATEGORIAS.map((cat) => (
           <button
             key={cat.slug}
+            role="tab"
+            aria-selected={active.slug === cat.slug}
             onClick={() => setActive(cat)}
-            className={`relative transition-all duration-300 ${
+            className={`relative whitespace-nowrap transition-all duration-300 flex-shrink-0 cursor-pointer ${
               active.slug === cat.slug
                 ? "text-black"
                 : "text-gray-400 hover:text-black"
@@ -114,14 +117,14 @@ useEffect(() => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.4 }}
-          className="max-w-3xl mx-auto text-center mb-16"
+          className="max-w-3xl mx-auto text-center mb-10 sm:mb-16"
         >
-          <h1 className="text-2xl md:text-4xl font-light mb-6 tracking-[0.2em]">
+          <h1 className="text-xl sm:text-2xl md:text-4xl font-light mb-4 sm:mb-6 tracking-[0.15em] sm:tracking-[0.2em]">
             {active.name}
           </h1>
 
-          <div className="space-y-4 text-gray-600 text-[15px] leading-relaxed">
-            {textos[active.slug]?.map((p, i) => (
+          <div className="space-y-3 sm:space-y-4 text-gray-600 text-sm sm:text-[15px] leading-relaxed px-2 sm:px-0">
+            {TEXTOS_CATEGORIA[active.slug]?.map((p, i) => (
               <p key={i}>{p}</p>
             ))}
           </div>
@@ -129,28 +132,48 @@ useEffect(() => {
       </AnimatePresence>
 
       {/* GALERIA */}
-      <AnimatePresence mode="wait">
-        <motion.div
-  key={active.slug + "-gallery"}
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  exit={{ opacity: 0 }}
-  transition={{ duration: 0.5 }}
-  className="columns-1 sm:columns-2 md:columns-3 gap-4 max-w-6xl mx-auto px-6"
->
-  {imagenes.map((src, i) => (
-    <motion.img
-      key={i}
-      src={src}
-      alt=""
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: i * 0.05 }}
-className="w-full mb-4  break-inside-avoid object-cover transition duration-500 hover:scale-[1.02]"    />
-  ))}
-</motion.div>
-      </AnimatePresence>
+      <Gallery
+        key={active.slug}
+        imagenes={imagenes}
+        visibleCount={visibleCount}
+        categoryName={active.name}
+      />
+
+      {/* Sentinel for infinite scroll */}
+      {visibleCount < imagenes.length && (
+        <div ref={sentinelRef} className="h-1" />
+      )}
 
     </section>
+  );
+}
+
+function Gallery({ imagenes, visibleCount, categoryName }: { imagenes: string[]; visibleCount: number; categoryName: string }) {
+  const colCount = useColumns(3);
+  const visible = imagenes.slice(0, visibleCount);
+
+  const columns = useMemo(() => {
+    const cols: string[][] = Array.from({ length: colCount }, () => []);
+    visible.forEach((src, i) => {
+      cols[i % colCount].push(src);
+    });
+    return cols;
+  }, [visible, colCount]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4 }}
+      className="flex gap-4 max-w-6xl mx-auto px-4 sm:px-6"
+    >
+      {columns.map((col, colIdx) => (
+        <div key={colIdx} className="flex-1 min-w-0">
+          {col.map((src, i) => (
+            <GalleryImage key={src} src={src} alt={`${categoryName} — foto ${colIdx * Math.ceil(visible.length / colCount) + i + 1}`} />
+          ))}
+        </div>
+      ))}
+    </motion.div>
   );
 }

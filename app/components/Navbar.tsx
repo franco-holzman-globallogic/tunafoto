@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import { NAV_LINKS } from "@/lib/constants";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -36,12 +38,7 @@ export default function Navbar() {
  const logoStyle =
   isHome && !scrolled ? "h-7" : "h-7 invert opacity-80";
 
-  const links = [
-    { name: "FOTOGRAFÍA", href: "/fotografia" },
-    { name: "VIDEO", href: "/video" },
-    { name: "CLIENTE", href: "/clientes" },
-    { name: "CONTACTO", href: "/contacto" },
-  ];
+  const links = NAV_LINKS;
 
   return (
     <>
@@ -51,17 +48,17 @@ export default function Navbar() {
         ${navbarStyle}
         ${open ? "opacity-0 -translate-y-6 pointer-events-none" : ""}`}
       >
-        <div
-          className={`px-6 py-4 flex items-center 
-          <div className="px-6 py-4 flex items-center justify-between">`}
-        >
+        <div className="px-6 py-4 flex items-center justify-between">
           {/* LOGO */}
           <div className={`${isHome && !scrolled ? "" : "flex justify-center"}`}>
             <Link href="/">
-              <img
+              <Image
                 src="/logo.svg"
-                alt="Logo"
+                alt="Tuna Fotografía"
+                width={120}
+                height={28}
                 className={`transition-all duration-500 ${logoStyle}`}
+                priority
               />
             </Link>
           </div>
@@ -100,6 +97,7 @@ export default function Navbar() {
             className={`md:hidden absolute right-6 top-4 text-3xl z-50 transition-all
             ${isHome && !scrolled ? "text-white" : "text-black"}`}
             onClick={() => setOpen(!open)}
+            aria-label={open ? "Cerrar menú" : "Abrir menú"}
           >
             {open ? "✕" : "☰"}
           </button>
@@ -118,7 +116,7 @@ export default function Navbar() {
         {/* LOGO */}
         <div className="absolute top-6 left-6">
           <Link href="/" onClick={() => setOpen(false)}>
-            <img src="/logo.svg" className="h-7 invert opacity-70" />
+            <Image src="/logo.svg" alt="Tuna Fotografía" width={120} height={28} className="h-7 invert opacity-70" />
           </Link>
         </div>
 
@@ -126,6 +124,7 @@ export default function Navbar() {
         <button
           className="absolute top-8 right-6 text-3xl"
           onClick={() => setOpen(false)}
+          aria-label="Cerrar menú"
         >
           ✕
         </button>

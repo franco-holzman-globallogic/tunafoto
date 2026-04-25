@@ -1,9 +1,11 @@
 "use client";
 import { motion } from "framer-motion";
+import Image from "next/image";
+import { SOCIAL_LINKS } from "@/lib/constants";
 
 export default function Contacto() {
   return (
-    <section className="min-h-screen bg-white text-black px-6 pt-28 pb-16 flex items-start">
+    <section className="min-h-screen bg-white text-black px-4 sm:px-6 pt-24 sm:pt-28 pb-16 flex items-start">
       
       <motion.div
         initial={{ opacity: 0 }}
@@ -21,9 +23,11 @@ export default function Contacto() {
           viewport={{ once: true }}
           className="w-full h-[300px] md:h-[520px] overflow-hidden"
         >
-          <img
+          <Image
             src="/luppe.jpg"
             alt="Fotógrafa"
+            width={600}
+            height={800}
             className="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-700"
           />  
         </motion.div>
@@ -48,8 +52,6 @@ export default function Contacto() {
             ¡Hola! Soy Lupe. Estudié Audiovisuales. Me gusta captar, capturar,
               lo natural y simple de los momentos.
               <br />
-              
-              {/*Simple y natural? Porque asi es el cactus también, simple y natural pero a veces al enroscarce tanto es un poco sensible y trata defenderse con sus espinas.*/}
               <br />
               TUNA representa la creación de recuerdos e imágenes que perduran en el tiempo, desde una mirada auténtica y cuidada. Ya sea una historia familiar, un momento especial, un retrato personal o una marca, busco siempre mostrar la esencia de cada uno de forma real.
               <br />
@@ -76,19 +78,19 @@ export default function Contacto() {
             className="flex flex-wrap justify-center md:justify-start items-center gap-x-6 gap-y-4 text-[11px] tracking-[0.3em] text-gray-600"
           >
 
-            <a href="https://www.instagram.com/tuna_foto/" target="_blank" rel="noopener noreferrer" className="hover:text-black transition duration-500">
+            <a href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-black transition duration-500">
               INSTAGRAM
             </a>
 
             <span className="hidden md:inline text-gray-300">•</span>
 
-            <a href="https://wa.me/542954545210" target="_blank" rel="noopener noreferrer" className="hover:text-black transition duration-500">
+            <a href={SOCIAL_LINKS.whatsapp} target="_blank" rel="noopener noreferrer" className="hover:text-black transition duration-500">
               WHATSAPP
             </a>
 
             <span className="hidden md:inline text-gray-300">•</span>
 
-            <a href="https://www.facebook.com/tunafoto/" target="_blank" rel="noopener noreferrer" className="hover:text-black transition duration-500">
+            <a href={SOCIAL_LINKS.facebook} target="_blank" rel="noopener noreferrer" className="hover:text-black transition duration-500">
               FACEBOOK
             </a>
 
