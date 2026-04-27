@@ -39,29 +39,78 @@ function useColumns(count: number) {
 }
 
 export default function Fotografia() {
+  const [navHeight, setNavHeight] = useState(0);
   const [active, setActive] = useState<{ name: string; slug: string }>(CATEGORIAS[0]);
   const [imagenes, setImagenes] = useState<string[]>([]);
   const [visibleCount, setVisibleCount] = useState(BATCH_SIZE);
+
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const triggerRef = useRef<HTMLDivElement | null>(null);
+
+  const [showSticky, setShowSticky] = useState(false);
 
   const cache = useRef<Record<string, string[]>>({});
 
-useEffect(() => {
-  setVisibleCount(BATCH_SIZE);
-  if (cache.current[active.slug]) {
-    setImagenes(cache.current[active.slug]);
-    return;
-  }
-  setImagenes([]);
-  fetch(`/api/imagenes?folder=${active.slug}`)
-    .then((res) => res.json())
-    .then((data) => {
-      cache.current[active.slug] = data;
-      setImagenes(data);
-    });
-}, [active.slug]);
+  useEffect(() => {
+  const updateHeight = () => {
+    const nav = document.getElementById("main-navbar");
+    if (nav) {
+      setNavHeight(nav.offsetHeight);
+    }
+  };
 
-  // 📜 INFINITE SCROLL — load more images when sentinel enters viewport
+  updateHeight();
+  window.addEventListener("resize", updateHeight);
+
+  return () => window.removeEventListener("resize", updateHeight);
+}, []);
+
+  useEffect(() => {
+  const observer = new ResizeObserver(() => {
+    const nav = document.getElementById("main-navbar");
+    if (nav) setNavHeight(nav.offsetHeight);
+  });
+
+  const nav = document.getElementById("main-navbar");
+  if (nav) observer.observe(nav);
+
+  return () => observer.disconnect();
+}, []);
+
+  // 🔥 STICKY DETECTION
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowSticky(!entry.isIntersecting);
+      },
+      { threshold: 0 }
+    );
+
+    if (triggerRef.current) observer.observe(triggerRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
+  // 📸 CARGA DE IMÁGENES
+  useEffect(() => {
+    setVisibleCount(BATCH_SIZE);
+
+    if (cache.current[active.slug]) {
+      setImagenes(cache.current[active.slug]);
+      return;
+    }
+
+    setImagenes([]);
+
+    fetch(`/api/imagenes?folder=${active.slug}`)
+      .then((res) => res.json())
+      .then((data) => {
+        cache.current[active.slug] = data;
+        setImagenes(data);
+      });
+  }, [active.slug]);
+
+  // 📜 INFINITE SCROLL
   const loadMore = useCallback(() => {
     setVisibleCount((prev) => Math.min(prev + BATCH_SIZE, imagenes.length));
   }, [imagenes.length]);
@@ -76,6 +125,7 @@ useEffect(() => {
       },
       { rootMargin: SCROLL_ROOT_MARGIN }
     );
+
     observer.observe(sentinel);
     return () => observer.disconnect();
   }, [loadMore]);
@@ -83,15 +133,17 @@ useEffect(() => {
   return (
     <section className="min-h-screen bg-white text-black px-4 sm:px-6 pt-24 sm:pt-28 pb-16">
 
-      {/* SUBMENU */}
-      <div className="flex flex-wrap justify-center sm:justify-center gap-4 sm:gap-6 md:gap-10 text-[10px] sm:text-[11px] tracking-[0.2em] sm:tracking-[0.3em] font-light mb-10 sm:mb-16 -mx-4 px-4 sm:mx-0 sm:px-0" role="tablist">
+      {/* TRIGGER */}
+      <div ref={triggerRef} />
+
+      {/* SUBMENU NORMAL */}
+      <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-10 text-[10px] sm:text-[11px] tracking-[0.2em] sm:tracking-[0.3em] font-light mb-10 sm:mb-16">
+
         {CATEGORIAS.map((cat) => (
           <button
             key={cat.slug}
-            role="tab"
-            aria-selected={active.slug === cat.slug}
             onClick={() => setActive(cat)}
-            className={`relative transition-all duration-300 flex-shrink-0 cursor-pointer ${
+            className={`relative transition-all duration-300 ${
               active.slug === cat.slug
                 ? "text-black"
                 : "text-gray-400 hover:text-black"
@@ -107,7 +159,49 @@ useEffect(() => {
             )}
           </button>
         ))}
+
       </div>
+
+      {/* SUBMENU STICKY */}
+      <AnimatePresence>
+        {showSticky && (
+          <motion.div
+            style={{ top: navHeight }}
+            initial={{ y: -80, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -80, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed left-0 w-full bg-white z-40 shadow-sm"
+          >
+            <div className="overflow-x-auto md:overflow-visible">
+              <div className="flex md:flex-wrap md:justify-center gap-6 md:gap-10 text-[10px] sm:text-[11px] tracking-[0.3em] font-light px-4 py-4 min-w-max md:min-w-0">
+
+                {CATEGORIAS.map((cat) => (
+                  <button
+                    key={cat.slug}
+                    onClick={() => setActive(cat)}
+                    className={`relative whitespace-nowrap ${
+                      active.slug === cat.slug
+                        ? "text-black"
+                        : "text-gray-400"
+                    }`}
+                  >
+                    {cat.name}
+
+                    {active.slug === cat.slug && (
+                      <motion.div
+                        layoutId="underline"
+                        className="absolute left-0 -bottom-2 w-full h-[1px] bg-black"
+                      />
+                    )}
+                  </button>
+                ))}
+
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* TITULO + TEXTO */}
       <AnimatePresence mode="wait">
@@ -139,7 +233,7 @@ useEffect(() => {
         categoryName={active.name}
       />
 
-      {/* Sentinel for infinite scroll */}
+      {/* INFINITE SCROLL */}
       {visibleCount < imagenes.length && (
         <div ref={sentinelRef} className="h-1" />
       )}
@@ -165,7 +259,11 @@ function Gallery({ imagenes, visibleCount, categoryName }: { imagenes: string[];
       {columns.map((col, colIdx) => (
         <div key={colIdx} className="flex-1 min-w-0">
           {col.map((src, i) => (
-            <GalleryImage key={src} src={src} alt={`${categoryName} — foto ${colIdx * Math.ceil(visible.length / colCount) + i + 1}`} />
+            <GalleryImage
+              key={src}
+              src={src}
+              alt={`${categoryName} — foto ${i + 1}`}
+            />
           ))}
         </div>
       ))}

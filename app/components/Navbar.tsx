@@ -44,6 +44,7 @@ export default function Navbar() {
     <>
       {/* NAVBAR */}
       <nav
+        id="main-navbar"
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 
         ${navbarStyle}
         ${open ? "opacity-0 -translate-y-6 pointer-events-none" : ""}`}
