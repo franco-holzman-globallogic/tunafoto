@@ -14,7 +14,7 @@ function GalleryImage({ src, alt }: { src: string; alt: string }) {
         src={src.replace("/upload/", "/upload/w_800/")}
         alt={alt}
         loading="lazy"
-        initial={{ opacity: 0, scale: 0.97 }}
+        initial={{ opacity: 1, scale: 0.97 }}
         animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.97 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
         className="w-full object-cover hover:scale-[1.02] transition-transform duration-500"

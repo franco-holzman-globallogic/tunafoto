@@ -17,7 +17,7 @@ export default function Contacto() {
 
         {/* FOTO */}       
         <motion.div
-          initial={{ opacity: 0, x: -60 }}
+          initial={{ opacity: 1, x: -60 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
@@ -34,7 +34,7 @@ export default function Contacto() {
         
         {/* CONTENIDO */}
         <motion.div
-          initial={{ opacity: 0, x: 60 }}
+          initial={{ opacity: 1, x: 60 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           viewport={{ once: true }}
@@ -71,7 +71,7 @@ export default function Contacto() {
 
           {/* REDES (PASO 4 ANIMADO) */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
             viewport={{ once: true }}
