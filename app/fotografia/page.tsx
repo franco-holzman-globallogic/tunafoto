@@ -94,6 +94,7 @@ export default function Fotografia() {
   // 📸 CARGA DE IMÁGENES
   useEffect(() => {
     setVisibleCount(BATCH_SIZE);
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
     if (cache.current[active.slug]) {
       setImagenes(cache.current[active.slug]);
