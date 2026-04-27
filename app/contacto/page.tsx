@@ -8,7 +8,7 @@ export default function Contacto() {
     <section className="min-h-screen bg-white text-black px-4 sm:px-6 pt-24 sm:pt-28 pb-16 flex items-start">
       
       <motion.div
-        initial={{ opacity: 0 }}
+        initial={{ opacity: 1 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}

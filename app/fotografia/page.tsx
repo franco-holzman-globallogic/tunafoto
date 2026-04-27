@@ -113,7 +113,7 @@ useEffect(() => {
       <AnimatePresence mode="wait">
         <motion.div
           key={active.slug}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 1, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.4 }}
@@ -161,12 +161,7 @@ function Gallery({ imagenes, visibleCount, categoryName }: { imagenes: string[];
   }, [visible, colCount]);
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
-      className="flex gap-4 max-w-6xl mx-auto px-4 sm:px-6"
-    >
+    <div className="flex gap-4 max-w-6xl mx-auto px-4 sm:px-6">
       {columns.map((col, colIdx) => (
         <div key={colIdx} className="flex-1 min-w-0">
           {col.map((src, i) => (
@@ -174,6 +169,6 @@ function Gallery({ imagenes, visibleCount, categoryName }: { imagenes: string[];
           ))}
         </div>
       ))}
-    </motion.div>
+    </div>
   );
 }
