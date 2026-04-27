@@ -39,7 +39,7 @@ function useColumns(count: number) {
 }
 
 export default function Fotografia() {
-  const [active, setActive] = useState(CATEGORIAS[0]);
+  const [active, setActive] = useState<{ name: string; slug: string }>(CATEGORIAS[0]);
   const [imagenes, setImagenes] = useState<string[]>([]);
   const [visibleCount, setVisibleCount] = useState(BATCH_SIZE);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
