@@ -8,7 +8,7 @@ export default function Contacto() {
     <section className="min-h-screen bg-white text-black px-4 sm:px-6 pt-24 sm:pt-28 pb-16 flex items-start">
       
       <motion.div
-        initial={{ opacity: 1 }}
+        initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
@@ -17,7 +17,7 @@ export default function Contacto() {
 
         {/* FOTO */}       
         <motion.div
-          initial={{ opacity: 1, x: -60 }}
+          initial={{ opacity: 0, x: -60 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
@@ -34,7 +34,7 @@ export default function Contacto() {
         
         {/* CONTENIDO */}
         <motion.div
-          initial={{ opacity: 1, x: 60 }}
+          initial={{ opacity: 0, x: 60 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           viewport={{ once: true }}
@@ -71,7 +71,7 @@ export default function Contacto() {
 
           {/* REDES (PASO 4 ANIMADO) */}
           <motion.div
-            initial={{ opacity: 1, y: 20 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
             viewport={{ once: true }}

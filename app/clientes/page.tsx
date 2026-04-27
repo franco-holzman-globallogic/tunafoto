@@ -9,34 +9,34 @@ export default function Clientes() {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const code = codigo.trim().toLowerCase();
-    if (!code) return;
+  const code = codigo.trim().toLowerCase();
+  if (!code) return;
 
-    setLoading(true);
-    setError("");
+  setLoading(true);
+  setError("");
 
-    try {
-      const res = await fetch("/api/galeria", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code }),
-      });
+  try {
+    const res = await fetch("/api/galeria", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code }),
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (res.ok && data.url) {
-        window.open(data.url, "_blank", "noopener,noreferrer");
-      } else {
-        setError(data.error || "Código incorrecto");
-      }
-    } catch {
-      setError("Error de conexión. Intentá de nuevo.");
-    } finally {
-      setLoading(false);
+    if (res.ok && data.url) {
+      window.location.href = data.url; // ✅ FIX
+    } else {
+      setError(data.error || "Código incorrecto");
     }
-  };
+  } catch {
+    setError("Error de conexión. Intentá de nuevo.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <section className="min-h-screen bg-white text-black px-4 sm:px-6 flex items-center justify-center">
