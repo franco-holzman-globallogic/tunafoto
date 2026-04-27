@@ -84,14 +84,14 @@ useEffect(() => {
     <section className="min-h-screen bg-white text-black px-4 sm:px-6 pt-24 sm:pt-28 pb-16">
 
       {/* SUBMENU */}
-      <div className="flex justify-start sm:justify-center overflow-x-auto scrollbar-hide gap-4 sm:gap-6 md:gap-10 text-[10px] sm:text-[11px] tracking-[0.2em] sm:tracking-[0.3em] font-light mb-10 sm:mb-16 -mx-4 px-4 sm:mx-0 sm:px-0" role="tablist">
+      <div className="flex flex-wrap justify-center sm:justify-center gap-4 sm:gap-6 md:gap-10 text-[10px] sm:text-[11px] tracking-[0.2em] sm:tracking-[0.3em] font-light mb-10 sm:mb-16 -mx-4 px-4 sm:mx-0 sm:px-0" role="tablist">
         {CATEGORIAS.map((cat) => (
           <button
             key={cat.slug}
             role="tab"
             aria-selected={active.slug === cat.slug}
             onClick={() => setActive(cat)}
-            className={`relative whitespace-nowrap transition-all duration-300 flex-shrink-0 cursor-pointer ${
+            className={`relative transition-all duration-300 flex-shrink-0 cursor-pointer ${
               active.slug === cat.slug
                 ? "text-black"
                 : "text-gray-400 hover:text-black"

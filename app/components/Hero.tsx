@@ -1,17 +1,6 @@
 "use client";
-import { useEffect } from "react";
-import { motion } from "framer-motion";
-
 export default function Hero() {
-  useEffect(() => {
-  document.body.style.overflow = "hidden";
-
-  const timer = setTimeout(() => {
-    document.body.style.overflow = "auto";
-  }, 1200); 
-
-  return () => clearTimeout(timer);
-}, []);
+  
   return (
     <section className="relative h-screen w-full overflow-hidden" aria-label="Portada">
       
@@ -27,12 +16,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-black/50" />
 
       {/* Contenido */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white px-6"
-      >
+      <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white px-6">
         <p className="uppercase tracking-[0.2em] text-sm mb-4 ">
           Fotografía & Video
         </p>
@@ -45,7 +29,7 @@ export default function Hero() {
           Registrando momentos.
         </p>
 
-      </motion.div>
+      </div>
     </section>
   );
 }
