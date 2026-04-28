@@ -49,15 +49,13 @@ export default function Contacto() {
 
           {/* SOBRE VOS */}
           <p className="text-[14px] md:text-[15px] text-gray-600 leading-relaxed mb-12 font-light">
-            ¡Hola! Soy Lupe. Estudié Audiovisuales. Me gusta captar, capturar,
-              lo natural y simple de los momentos.
+            ¡Hola! Soy Lupe. Estudié Audiovisuales. Me gusta captar -y capturar- lo natural y simple de los momentos.
               <br />
               <br />
               TUNA representa la creación de recuerdos e imágenes que perduran en el tiempo, desde una mirada auténtica y cuidada. Ya sea una historia familiar, un momento especial, un retrato personal o una marca, busco siempre mostrar la esencia de cada uno de forma real.
               <br />
               <br />
               Las fotos son una forma de viajar en el tiempo. Gracias a mis papás, cada uno de mis hermanos tiene uno o dos álbumes, algo que valoro profundamente. Esas imágenes nos permiten revivir emociones, ver cómo cambiamos, recordar a personas que ya no están y volver a momentos que, sin ese registro, quizás se perderían.
-              <br/>
               Por eso es tan importante guardar estos instantes.
               <br />
               <br />

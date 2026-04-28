@@ -17,22 +17,20 @@ export const CATEGORIAS = [
 
 export const TEXTOS_CATEGORIA: Record<string, string[]> = {
   infantil: [
-    "Naturales y espontáneas pensadas para capturar la esencia de cada etapa.",
-    "Más que una sesión, es un juego: los chicos no hacen lo que nosotros queremos, sino lo que sienten. Corren, exploran, se divierten y se expresan libremente. Están en su propio mundo, siendo simplemente niños. Yo solo los acompaño y los sigo con mi cámara.",
+    "Naturales y espontáneas, pensadas para capturar la esencia de cada etapa.",
+    "Más que una sesión, es un juego: los chicos no hacen lo que nosotros queremos, sino lo que sienten. Corren, exploran, se divierten y se expresan libremente. Yo solo los acompaño y los sigo con mi cámara.",
   ],
   "recien-nacido": [
-    "Capturá la intimidad de los primeros días con tu bebé a través de imágenes naturales y atemporales.",
+    "La intimidad de los primeros días con tu bebé a través de imágenes naturales y atemporales.",
     "Cada sesión se centra en el vínculo, las miradas y las emociones, sin poses (lifestyle), con luz natural y en un ambiente tranquilo, ya sea en estudio o en tu hogar.",
     "Un recuerdo único de una etapa que pasa muy rápido y merece ser guardada para siempre.",
   ],
   familia: [
-    "La espontaneidad y la naturalidad definen mis imágenes.",
-    "En exteriores, los espacios abiertos permiten sentirse libres, relajarse y disfrutar.",
-    "Saltar, correr, jugar y simplemente pasarlo bien.",
-    "Las mascotas también son bienvenidas.",
+    "Me gusta captar lo espontáneo y natural.",
+    "En exteriores, los espacios abiertos invitan a soltarse, relajarse y disfrutar: saltar, correr, jugar y dejar que todo fluya.",
+    "Y sí, las mascotas también son bienvenidas.",
   ],
   embarazo: [
-    "Fotografías naturales y auténticas que capturan la esencia de este momento único.",
     "La belleza de la espera se refleja en imágenes íntimas y emocionales, pensadas para atesorar esta etapa para siempre.",
     "Se recomienda realizar la sesión entre la semana 28 y 34, aunque cada embarazo es distinto.",
   ],
@@ -40,9 +38,7 @@ export const TEXTOS_CATEGORIA: Record<string, string[]> = {
   "15-anos": ["Un momento único que merece ser recordado para siempre."],
   mascota: ["Ellos también son familia."],
   evento: ["Cobertura natural de momentos únicos."],
-  producto: [
-    "Pensadas para mostrar cada detalle de forma auténtica y atractiva, conectando con la esencia de tu marca.",
-  ],
+  producto: ["Pensadas para mostrar cada detalle de forma auténtica y atractiva, conectando con la esencia de tu marca.",],
   retrato: [
     "Fotografías personales pensadas para reflejar tu esencia de forma natural y profesional.",
     "También podés realizar fotos tipo carnet, cumpliendo con los requisitos necesarios para documentos o trámites.",

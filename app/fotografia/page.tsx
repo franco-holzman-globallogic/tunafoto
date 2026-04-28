@@ -218,7 +218,7 @@ export default function Fotografia() {
             {active.name}
           </h1>
 
-          <div className="space-y-3 sm:space-y-4 text-gray-600 text-sm sm:text-[15px] leading-relaxed px-2 sm:px-0">
+          <div className="space-y-3 sm:space-y-2 text-gray-600 text-sm sm:text-[15px] leading-relaxed px-2 sm:px-0">
             {TEXTOS_CATEGORIA[active.slug]?.map((p, i) => (
               <p key={i}>{p}</p>
             ))}
