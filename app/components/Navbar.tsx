@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { NAV_LINKS } from "@/lib/constants";
+import MobileMenu from "./MobileMenu";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -16,19 +17,19 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
-    if (open || isHome) {
+    if (open) {
       document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
     } else {
-      document.documentElement.style.overflow = "auto";
-      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
     }
-  }, [open, isHome]);
+  }, [open]);
 
   const navbarStyle =
     isHome && !scrolled
@@ -105,47 +106,8 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* MENU MOBILE */}
-      <div
-        className={`fixed inset-0 bg-white z-[60] flex flex-col transition-all duration-500
-        ${
-          open
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 -translate-y-10 pointer-events-none"
-        }`}
-      >
-        {/* LOGO */}
-        <div className="absolute top-6 left-6">
-          <Link href="/" onClick={() => setOpen(false)}>
-            <Image src="/logo.svg" alt="Tuna Fotografía" width={120} height={28} className="h-7 invert opacity-70" />
-          </Link>
-        </div>
-
-        {/* CLOSE */}
-        <button
-          className="absolute top-8 right-6 text-3xl"
-          onClick={() => setOpen(false)}
-          aria-label="Cerrar menú"
-        >
-          ✕
-        </button>
-
-        {/* LINKS */}
-        <div className="flex flex-1 flex-col items-center justify-center space-y-10 tracking-[0.2em] font-light text-gray-700">
-          {links.map((link, i) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className={`transition-all duration-500 hover:text-gray-400
-              ${open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
-              style={{ transitionDelay: `${i * 100}ms` }}
-            >
-              {link.name}
-            </Link>
-          ))}
-        </div>
-      </div>
+      {/* Mobile menu */}
+      <MobileMenu open={open} links={links} onClose={() => setOpen(false)} />
     </>
   );
 }

@@ -62,7 +62,9 @@ export async function GET(req: Request) {
       img.secure_url.replace("/upload/", "/upload/f_auto,q_auto/")
     );
 
-    return NextResponse.json(images);
+    return NextResponse.json(images, {
+      headers: { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400" },
+    });
   } catch (error) {
     console.error("Cloudinary search failed for folder:", folder);
     return NextResponse.json([]);

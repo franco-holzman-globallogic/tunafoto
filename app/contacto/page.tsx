@@ -1,53 +1,35 @@
-"use client";
-import { motion } from "framer-motion";
+import FadeIn from "../components/FadeIn";
 import Image from "next/image";
 import { SOCIAL_LINKS } from "@/lib/constants";
 
 export default function Contacto() {
   return (
-    <section className="min-h-screen bg-white text-black px-4 sm:px-6 pt-24 sm:pt-28 pb-16 flex items-start">
-      
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
+    <section className="min-h-svh bg-white text-black px-4 sm:px-6 pt-24 sm:pt-28 pb-16 flex items-start">
+
+      <FadeIn
+        direction="none"
         className="max-w-5xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center"
       >
 
-        {/* FOTO */}       
-        <motion.div
-          initial={{ opacity: 0, x: -60 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="w-full h-[300px] md:h-[520px] overflow-hidden"
-        >
+        {/* Foto */}
+        <FadeIn direction="left" delay={0.2} className="w-full h-[300px] md:h-[520px] overflow-hidden">
           <Image
             src="/luppe.jpg"
             alt="Fotógrafa"
             width={600}
             height={800}
             className="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-700"
-          />  
-        </motion.div>
-        
-        {/* CONTENIDO */}
-        <motion.div
-          initial={{ opacity: 0, x: 60 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="text-center md:text-left max-w-md mx-auto md:mx-0"
-        >
+          />
+        </FadeIn>
 
-          {/* TITULO */}
+        {/* Contenido */}
+        <FadeIn direction="right" delay={0.4} className="text-center md:text-left max-w-md mx-auto md:mx-0">
+
           <h2 className="text-xl md:text-3xl font-light leading-relaxed mb-8">
             Cada historia es única.
             <br />Y merece ser contada con sensibilidad.
           </h2>
 
-          {/* SOBRE VOS */}
           <p className="text-[14px] md:text-[15px] text-gray-600 leading-relaxed mb-12 font-light">
             ¡Hola! Soy Lupe. Estudié Audiovisuales. Me gusta captar -y capturar- lo natural y simple de los momentos.
               <br />
@@ -62,40 +44,29 @@ export default function Contacto() {
               Si te gusta mi trabajo y sentís que conecta con lo que estás buscando, escribime y vemos juntos cómo puedo ayudarte.
           </p>
 
-          {/* CTA */}
           <p className="text-[11px] tracking-[0.3em] text-gray-400 mb-6">
             CONTACTAME
           </p>
 
-          {/* REDES (PASO 4 ANIMADO) */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            viewport={{ once: true }}
+          <FadeIn
+            delay={0.6}
             className="flex flex-wrap justify-center md:justify-start items-center gap-x-6 gap-y-4 text-[11px] tracking-[0.3em] text-gray-600"
           >
-
             <a href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-black transition duration-500">
               INSTAGRAM
             </a>
-
             <span className="hidden md:inline text-gray-300">•</span>
-
             <a href={SOCIAL_LINKS.whatsapp} target="_blank" rel="noopener noreferrer" className="hover:text-black transition duration-500">
               WHATSAPP
             </a>
-
             <span className="hidden md:inline text-gray-300">•</span>
-
             <a href={SOCIAL_LINKS.facebook} target="_blank" rel="noopener noreferrer" className="hover:text-black transition duration-500">
               FACEBOOK
             </a>
+          </FadeIn>
 
-          </motion.div>
-
-        </motion.div>
-      </motion.div>
+        </FadeIn>
+      </FadeIn>
     </section>
   );
 }
